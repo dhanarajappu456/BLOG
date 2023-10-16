@@ -3,6 +3,7 @@ import Header from "./Header";
 import { Outlet } from "react-router-dom";
 
 function Layout() {
+  console.log("layout haai");
   return (
     <main>
       <Header />
