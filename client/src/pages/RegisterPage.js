@@ -1,15 +1,18 @@
-import React, { useRef } from "react";
+import React, { useContext, useRef } from "react";
+import { Navigate, useNavigate } from "react-router-dom";
+import { UserContext } from "../UserContext";
 
 function RegisterPage() {
   const userNameRef = useRef("");
   const passwordRef = useRef("");
+  const navigate = useNavigate();
+  const { setUserInfo } = useContext(UserContext);
+
   return (
     <form
       className="register"
       onSubmit={(e) => {
         e.preventDefault();
-        console.log(userNameRef.current.value, passwordRef.current.value);
-        console.log(process.env.REACT_APP_API_URL);
 
         fetch(process.env.REACT_APP_API_URL + "/register", {
           method: "POST",
@@ -20,39 +23,45 @@ function RegisterPage() {
             username: userNameRef.current.value,
             password: passwordRef.current.value,
           }),
+          credentials: "include",
         })
           .then((resp) => {
             if (resp.status === 200) {
               alert("Success registering");
+              resp.json().then((userinfo) => {
+                setUserInfo(userinfo);
+                navigate("/");
+              });
             } else {
-              console.log(resp);
               alert(
                 "Oops!! Either the username is already taken / username is empty:("
               );
             }
           })
 
-          .catch((e) => {
-            console.log("error", e);
-          });
+          .catch((e) => {});
       }}
     >
       <h1>Register</h1>
       <input
         ref={userNameRef}
         type="text"
-        pattern="[A-Za-z0-9]+"
-        title="Only alphanumeric  characters are allowed"
+        minLength="1"
+        maxLength="10"
+        pattern="^[A-Za-z]+[_A-Za-z0-9]*$"
+        title="Only alphbets followed by numbers or _ are allowed"
         placeholder="username"
+        required
       />
       <input
         ref={passwordRef}
         type="password"
         placeholder="password"
-        pattern="[A-Za-z0-9]+"
+        pattern="[A-Za-z0-9]{1,}"
         title="Only alphanumeric  characters _&$#@ are only allowed"
+        required
       />
-      <button type="sumbit">Register</button>
+      <button type="submit">Register</button>
     </form>
   );
 }

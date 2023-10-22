@@ -1,13 +1,16 @@
-import Post from "./Post";
-import Header from "./Header";
+import Post from "./components/Post";
+import Header from "./components/Header";
 import "./App.css";
 import { Route, Routes } from "react-router-dom";
-import Layout from "./Layout";
+import Layout from "./components/Layout";
 import HomePage from "./pages/HomePage";
 import LoginPage from "./pages/LoginPage";
 import RegisterPage from "./pages/RegisterPage";
-import ErrorPage from "./pages/errors/ErrorPage";
+import ErrorPage from "./errors/ErrorPage";
 import { UserContextProvider } from "./UserContext";
+import CreatePost from "./pages/CreatePost";
+import SinglePost from "./pages/SinglePost";
+import EditPost from "./pages/EditPost";
 
 function App() {
   return (
@@ -25,8 +28,11 @@ function App() {
           <Route index element={<HomePage />} />
           <Route path="/login" element={<LoginPage />} />
           <Route path="/register" element={<RegisterPage />} />
+          <Route path="/create" element={<CreatePost />} />
+          <Route path="/post/:id" element={<SinglePost />} />
+          <Route path="/edit/:id" element={<EditPost />} />
+          <Route path="/error" element={<ErrorPage />}></Route>
         </Route>
-        <Route path="/error" element={<ErrorPage />}></Route>
       </Routes>
     </UserContextProvider>
   );

@@ -3,12 +3,11 @@ import { Navigate, useNavigate } from "react-router-dom";
 import { UserContext } from "../UserContext";
 
 function LoginPage() {
-  useEffect(() => {
-    console.log("login usefdfexct hello...");
-  });
+  useEffect(() => {});
   const [userName, setUserName] = useState("");
   const [password, setPassword] = useState("");
   const { userInfo, setUserInfo } = useContext(UserContext);
+
   const navigate = useNavigate();
   function handleUserName(e) {
     setUserName(e.target.value);
@@ -30,13 +29,13 @@ function LoginPage() {
         }),
         credentials: "include",
       });
-      console.log("res", response);
+
       // const data = await response.json();
-      // console.log("data", data);
+      //
       if (response.status === 200) {
         response.json().then((userInfoResponse) => {
-          console.log("userinfo", userInfoResponse);
           setUserInfo(userInfoResponse);
+
           navigate("/");
         });
       } else if (response.status === 401) {
@@ -58,12 +57,14 @@ function LoginPage() {
         placeholder="username"
         value={userName}
         onChange={handleUserName}
+        required
       />
       <input
         type="password"
         placeholder="password"
         value={password}
         onChange={handlePassword}
+        required
       />
       <button>Login</button>
     </form>

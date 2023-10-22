@@ -36,7 +36,8 @@
     transform: rotate(360deg);
   }
 } */
-
+/* 
+styling for home screen and post */
 * {
   box-sizing: border-box;
 }
@@ -47,7 +48,7 @@ img {
   max-width: 100%;
 }
 main {
-  max-width: 500px;
+  max-width: 750px;
   margin: 0 auto;
   padding: 10px;
 }
@@ -77,14 +78,52 @@ header nav {
 
 .post {
   display: grid;
-  grid-template-columns: 1fr 1fr;
+
+  grid-template-columns: 1fr;
+  width: 100%;
   gap: 20px;
   margin-bottom: 30px;
 }
 
-.heading {
+@media (min-width: 720px) {
+  .post {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+.post .heading {
   margin: 0;
   font-size: 1.8rem;
+}
+.post .image img {
+  width: 100%;
+}
+.post .content {
+  /* by default grid item have a min width of its 
+  content- which means it wont shrink below the contents width
+  therefore the grid item expand as the content / text withinit
+
+ minwidth - 0 set it to 0 ans says the grid item can shrink till tehis min width
+
+ thus we can apply the width property on the content
+  */
+
+  /* also you can do this without specying min-wdith for an item 
+  just add min-max to the grid container
+   grid-template-columns: 1fr minmax(0, 1fr);
+  */
+
+  min-width: 0;
+
+  width: 100%;
+}
+.post .content a {
+  text-decoration: none;
+  color: inherit;
+}
+.post .post-content > p {
+  max-width: 100%;
+  text-align: justify;
+  text-justify: inter-word;
 }
 
 .info {
@@ -137,4 +176,75 @@ button {
 
 form h1 {
   text-align: center;
+}
+
+/* quil styling */
+
+.ql-container {
+  min-height: 200px;
+}
+
+/* single post page styling  */
+.single-post .content p > a {
+  color: #333 !important;
+}
+.single-post .title {
+  text-align: center;
+  margin: 10px 0 5px;
+}
+
+.single-post .image {
+  text-align: center;
+}
+
+.single-post time {
+  font-size: 0.8rem;
+  color: #aaa;
+}
+.single-post .singlepost__author,
+time {
+  display: block;
+  text-align: center;
+}
+.singlepost__author {
+  text-align: center;
+  margin-bottom: 20px;
+}
+.single-post .edit-row {
+  text-align: center;
+}
+.single-post .edit-button {
+  color: white;
+  display: inline-flex;
+  cursor: poiner;
+  background-color: #160a0a;
+  padding: 10px 30px;
+  align-items: center;
+  /* gap: 5px; */
+  width: 150px;
+  height: 46px;
+  margin-bottom: 10px;
+  border-radius: 5px;
+}
+.single-post a {
+  color: white;
+  text-decoration: none;
+}
+.single-post svg {
+  width: 20px;
+  height: 40px;
+  color: white;
+  text-decoration: none;
+}
+.single-post .image img {
+  width: 100%;
+  height: 300px;
+  object-fit: cover;
+  object-position: center center;
+}
+
+.single-post .content {
+  text-align: justify;
+  hyphens: auto;
+  line-height: 1.5rem;
 }
