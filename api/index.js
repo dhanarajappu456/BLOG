@@ -22,20 +22,16 @@ app.use("/upload", express.static(__dirname + "/upload/"));
 
 const secret = process.env.JWT_SECRET;
 function generateToken(userName, userDoc, res) {
-  .log("token  function start");
   jwt.sign(
     { userName: userName, id: userDoc._id },
     secret,
     {},
     (err, token) => {
-      
       if (err) {
-        
         res
           .status(500)
           .json({ message: "Internal Server Error....", err: err });
       } else {
-        
         //response include set-cookie header in the respose with the new  token
         //with key as the name and value as the token value
         //receiving this token in the response header, browser
@@ -54,10 +50,12 @@ app.use(
     origin: [
       "http://localhost:3000",
       "https://blog-front-roan.vercel.app",
-      "http://localhost:3005",
+      "http://localhost:300",
     ],
   })
 );
+
+// app.use(cors());
 
 app.use(cookieParser());
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -76,23 +74,19 @@ app.post("/register", (req, res) => {
   //generate jwt token
 
   const { username, password } = req.body;
-  
 
   const result = bcrypt.hash(password, 10, async function (err, hash) {
     if (err) {
-      
       res.status(400).json({ message: "hashing error" });
     }
     try {
       userDoc = await User.create({ username: username, password: hash });
-      
+
       generateToken(username, userDoc._id, res);
-      
     } catch (e) {
       if (username === "") {
         res.status(400).json({ message: "username cant be empty", e: e });
       } else {
-        
         res.status(400).json({ message: "user duplicate error ", e: e });
       }
     }
@@ -102,26 +96,22 @@ app.post("/register", (req, res) => {
 app.post("/login", async (req, res) => {
   try {
     const { userName, passWord } = req.body;
-    
 
     const userDoc = await User.findOne({ username: userName });
-    
+
     bcrypt.compare(passWord, userDoc.password, function (err, result) {
       if (err) {
         return res.status(500).json({ message: "Internal Server Error" });
       }
       if (result) {
-        
         generateToken(userName, userDoc, res);
 
         // return res.json({ message: "Success Logging In..." });
       } else {
-        
         return res.status(401).json({ message: "Unauthorized Error" });
       }
     });
   } catch (error) {
-    
     return res.status(401).json({ message: "User not registered" });
   }
 });
@@ -132,48 +122,43 @@ app.get("/profile", (req, res) => {
   // which inturn would have set the cookies in the cookies storage of the browser
 
   const token = req.cookies;
-  
+
   if ("token" in req.cookies) {
     const { token } = req.cookies;
-    
+
     jwt.verify(token, secret, {}, (err, info) => {
       if (err) {
-        
         res.status(500).json({ message: "Internal server error" });
       }
-      
+
       return res.json({ userName: info.userName, id: info.id });
     });
   } else {
-    
     return res.json({});
   }
-  // 
+  //
   // res.json(req.cookies);
 });
 app.get("/logout", (req, res) => {
-  
   //clears the cookie in the user re
   res.clearCookie("token");
   res.json("ok");
 });
 app.post("/post", uploadMiddleWare.any(), async (req, res) => {
-  
   const { path, originalname } = req.files[0];
   const extension = originalname.split(".")[1];
 
   const newPath = path + "." + extension;
-  
+
   // the file put in to uploads had no extension , so we renamw it by appending
   //extension of the actual file
   fs.renameSync(path, newPath);
 
   if ("token" in req.cookies) {
     const { token } = req.cookies;
-    
+
     jwt.verify(token, secret, {}, async (err, info) => {
       if (err) {
-        
         return res.status(401).json({ message: "Unauthorised access" });
       }
 
@@ -189,13 +174,11 @@ app.post("/post", uploadMiddleWare.any(), async (req, res) => {
       // return res.json({ userName: info.userName, id: info._id });
     });
   } else {
-    
     return res.json({});
   }
 });
 
 app.get("/posts", uploadMiddleWare.any(), async (req, res) => {
-  
   // sort the post from latest to oldest and limit the number of documents
   //returned to 10
   const posts = await Post.find()
@@ -216,11 +199,9 @@ app.put("/editPost/:id", uploadMiddleWare.any(), (req, res) => {
 
   const { token } = req.cookies;
   const { id: postId } = req.params;
-  
 
   jwt.verify(token, secret, {}, async (err, info) => {
     if (err) {
-      
       return res.status(401).json({ message: "Unauthorised access" });
     }
 
@@ -239,7 +220,7 @@ app.put("/editPost/:id", uploadMiddleWare.any(), (req, res) => {
           const extension = originalname.split(".")[1];
 
           const newPath = path + "." + extension;
-          
+
           // the file put in to uploads had no extension , so we renamw it by appending
           //extension of the actual file
           fs.renameSync(path, newPath);
@@ -252,7 +233,6 @@ app.put("/editPost/:id", uploadMiddleWare.any(), (req, res) => {
         return res.status(401).json({ message: "Unauthorised access" });
       }
     } catch (err) {
-      
       return res.status(500).json({ message: "Internal Server Error" });
     }
 
