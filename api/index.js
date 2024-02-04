@@ -47,11 +47,7 @@ function generateToken(userName, userDoc, res) {
 app.use(
   cors({
     credentials: true,
-    origin: [
-      "http://localhost:3000",
-      "https://blog-front-roan.vercel.app",
-      "http://localhost:300",
-    ],
+    origin: "https://blog-front-roan.vercel.app",
   })
 );
 
