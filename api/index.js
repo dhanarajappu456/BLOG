@@ -69,7 +69,9 @@ function generateToken(userName, userDoc, res) {
 //   next();
 // });
 
-app.use(cors({ origin: "http://localhost:3005", credentials: true }));
+app.use(
+  cors({ origin: "https://blog-fr-sigma.vercel.app", credentials: true })
+);
 
 app.use(cookieParser());
 app.use(bodyParser.urlencoded({ extended: true }));
