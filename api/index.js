@@ -13,12 +13,12 @@ const cookieParser = require("cookie-parser");
 //attaches the uploaded files to the req object.
 //so that we can access  the file
 const multer = require("multer");
-const uploadMiddleWare = multer({ dest: "upload/" });
+const uploadMiddleWare = multer({ dest: "temp/" });
 const fs = require("fs");
 require("dotenv").config();
 const { Post } = require("./model/Posts");
 
-app.use("/upload", express.static(__dirname + "/upload/"));
+app.use("/upload", express.static(__dirname + "/temp/"));
 
 const secret = process.env.JWT_SECRET;
 function generateToken(userName, userDoc, res) {
