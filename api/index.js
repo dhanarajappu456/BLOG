@@ -17,6 +17,19 @@ const uploadMiddleWare = multer({ dest: "temp/" });
 const fs = require("fs");
 require("dotenv").config();
 const { Post } = require("./model/Posts");
+app.use((req, res, next) => {
+  res.setHeader("Access-Control-Allow-Origin", "https://blog-guxz.vercel.app");
+  res.setHeader(
+    "Access-Control-Allow-Methods",
+    "GET, POST, OPTIONS, PUT, PATCH, DELETE"
+  );
+  res.setHeader(
+    "Access-Control-Allow-Headers",
+    "X-Requested-With,content-type"
+  );
+  res.setHeader("Access-Control-Allow-Credentials", true);
+  next();
+});
 
 app.use("/upload", express.static(__dirname + "/temp/"));
 
