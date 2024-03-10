@@ -44,6 +44,7 @@ function generateToken(userName, userDoc, res) {
     }
   );
 }
+
 // app.use(
 //   cors({
 //     credentials: true,
@@ -71,7 +72,7 @@ function generateToken(userName, userDoc, res) {
 
 app.use(
   cors({
-    origin: ["https://blog-fr-sigma.vercel.app", "http://localhost:3005"],
+    origin: ["https://blog-guxz.vercel.app", "http://localhost:3005"],
     credentials: true,
   })
 );
