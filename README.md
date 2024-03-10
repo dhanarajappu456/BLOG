@@ -24,6 +24,7 @@ Check out the live demo of the website [here](https://blog-guxz.vercel.app/).
 - **React**: Frontend library for building the user interface.
 - **Node.js**: JavaScript runtime environment for running server-side code.
 - **Vercel**: Platform for hosting the website and deploying frontend applications.
+- **Render**: Platform for hosting the website and deploying Backend services.
 
 ## Usage
 
